@@ -1,7 +1,8 @@
+import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { browserHistory } from 'react-router';
+import Root from './Root';
 
-ReactDOM.render(
-    <h1>Hello From React</h1>,
-    document.getElementById('app')
-)
+// Render the main component into the dom
+ReactDOM.render(<Root history={browserHistory} />, document.getElementById('app'));
