@@ -8,8 +8,8 @@ const app = express();
 app.use(cors());
 
 const authCheck = jwt({
-  secret: new Buffer(process.ENV.AUTHSECRET, 'base64'),
-  audience: process.ENV.AUTHCLIENT
+  secret: new Buffer(process.env.AUTHSECRET, 'base64'),
+  audience: process.env.AUTHCLIENT
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -51,14 +51,19 @@ var contacts = [
 ];
 
 app.get('/api/contacts', (req, res) => {
+  
   const allContacts = contacts.map(contact => {
     return { id: contact.id, name: contact.name};
   });
+  console.log(allContacts)
   res.json(allContacts);
 });
 
-app.get('/api/contacts/:id', authCheck, (req, res) => {
-  res.json(contacts.filter(contact => contact.id === parseInt(req.params.id)));
+// app.get('/api/contacts/:id', authCheck, (req, res) => {
+app.get('/api/contacts/:id', (req, res) => {
+  let user = contacts.filter(contact => contact.id === parseInt(req.params.id))[0];
+  console.log(user);
+  res.json(user);
 });
 
 app.get('/', (req, res) => {
